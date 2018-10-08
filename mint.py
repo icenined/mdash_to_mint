@@ -12,125 +12,139 @@ from selenium.webdriver.support import expected_conditions as EC
 
 LOGPATH = ".\mint_loader.log"
 
-REQUIRED_COLS = {"Date", "Description", "Tag", "USD"}
+REQUIRED_COLS = {"Date", "OriginalDescription", "L1Tag", "L2Tag", "L3Tag", "USD"}
+DONOTUPLOAD = 'DNU'
 
 TAGMAP = {
-    'Mobile': 'Mobile Phone',
-    'Cycling': 'Public Transportation',
-    'Supermarket': 'Groceries',
-    'Household - other': 'Home Supplies',
-    'Public transport': 'Public Transportation',
-    'Clothes': 'Clothing',
-    'Groceries': 'Groceries',
-    'Donation to organisation': 'Charity',
-    'Home electronics': 'Electronics & Software',
-    'Cash': 'Cash & ATM',
-    'Pet housing/care': 'Pets',
-    'Insurance - other': 'Financial',
-    'Home insurance': 'Home Insurance',
-    'Media bundle': 'Internet',
-    'Salary (main)': 'Paycheck',
-    'Current account': None,
-    'Gym Membership': 'Gym',
-    'Gym Equipment': 'Sporting Goods',
-    'Office Supplies': 'Office Supplies',
-    'Sports Equipment': 'Sporting Goods',
+    'Accessories': 'Clothing',
     'Administration - other': 'Fees & Charges',
     'Alcohol': 'Groceries',
+    'Appearance': 'Personal Care',
+    'Art Supplies': 'Books & Supplies',
     'Bank charges': 'Bank Fee',
     'Beauty products': 'Personal Care',
     'Birthday present': 'Gift',
     'Books & Course Materials': 'Books & Supplies',
+    'Books / Magazines / Newspapers': 'Books',
     'Broadband': 'Internet',
+    'Business Expenses': 'Business Services',
+    'Business Services': 'Business Services',
+    'Cash': 'Cash & ATM',
+    'Charity - other': 'Charity',
     'Christmas present': 'Gift',
     'Cinema': 'Entertainment',
+    'Clothes - Designer or Other': 'Clothing',
     'Clothes - other': 'Clothing',
+    'Clothes': 'Clothing',
     'Club Membership': 'Gym',
     'Concert & Theatre': 'Entertainment',
     'Council tax': 'Local Tax',
+    'Council Tax': 'Local Tax',
     'Course and Tuition Fees': 'Tuition',
-    'Credit card payment': None,
-    'Credit card repayment': None,
-    'Other repayment': None,
-    'DIY': 'Home Improvement',
+    'Credit Card': 'Fees',
+    'Credit card payment': DONOTUPLOAD,
+    'Credit card repayment': DONOTUPLOAD,
+    'Current account': DONOTUPLOAD,
+    'Cycling': 'Public Transportation',
     'Dental treatment': 'Dentist',
+    'Designer clothes': 'Clothing',
     'Dining and drinking': 'Restaurants',
+    'Dining or Going Out': 'Restaurants',
+    'DIY': 'Home Improvement',
     'Domestic supplies': 'Home Supplies',
+    'Donation to organisation': 'Charity',
     'Dry cleaning and laundry': 'Laundry',
+    'Education - other': 'Education',
     'Electrical equipment': 'Home Supplies',
+    'Electricity': 'Utilities',
+    'Enjoyment': 'Entertainment',
+    'Expenses': 'Reimbursement',
     'Eye care': 'Eyecare',
     'Flights': 'Air Travel',
+    'Food, Groceries, Household': 'Groceries',
     'Fuel': 'Gas & Fuel',
     'Furniture': 'Furnishings',
     'Gas and electricity': 'Utilities',
+    'Gift': 'Gift',
     'Gifts - other': 'Gift',
+    'Gifts or Presents': 'Gift',
+    'Groceries': 'Groceries',
+    'Gym Equipment': 'Sporting Goods',
+    'Gym Membership': 'Gym',
     'Hairdressing': 'Hair',
     'Holiday': 'Travel',
+    'Home': 'Home',
     'Home and garden - other': 'Home',
+    'Home DIY or Repairs': 'Home Improvement',
+    'Home electronics': 'Electronics & Software',
+    'Home insurance': 'Home Insurance',
     'Hotel/B&B': 'Hotel',
+    'Household - other': 'Home Supplies',
+    'Income': 'Income',
+    'Insurance - other': 'Financial',
     'Interest charges': 'Finance Charge',
     'Jewellery': 'Shopping',
     'Kitchen / Household Appliances': 'Home',
     'Lighting': 'Furnishings',
+    'Lunch or Snacks': 'Restaurants',
+    'Media bundle': 'Internet',
+    'Medical treatment': 'Doctor',
+    'Medication': 'Pharmacy',
+    'Mobile': 'Mobile Phone',
     'Museum/exhibition': 'Arts',
+    'Office Supplies': 'Office Supplies',
+    'Other Repayment': DONOTUPLOAD,
+    'Other repayment': DONOTUPLOAD,
     'Parking': 'Parking',
     'Personal Care - Other': 'Personal Care',
     'Personal Electronics': 'Electronics & Software',
     'Pet food': 'Pet Food & Supplies',
+    'Pet housing/care': 'Pets',
     'Pets - other': 'Pets',
     'Phone (landline)': 'Home Phone',
     'Physiotherapy': 'Doctor',
     'Postage / Shipping': 'Shipping',
     'Property - other': 'Uncategorized',
+    'Public transport': 'Public Transportation',
+    'Public Transport': 'Public Transportation',
     'Refunded purchase': 'Returned Purchase',
     'Rent': 'Mortgage & Rent',
+    'Rental Income': 'Income',
+    'Rental income (room)': 'Income',
+    'Rental income (whole property)': 'Income',
+    'Repayments': DONOTUPLOAD,
     'Rewards/cashback': 'Uncategorized',
+    'Road charges': 'Tolls',
+    'Salary (main)': 'Paycheck',
+    'Salary (secondary)': 'Paycheck',
+    'Salary or Wages (Main)': 'Paycheck',
+    'Salary or Wages (Other)': 'Paycheck',
     'Service / Parts / Repairs': 'Service & Parts',
     'Shoes': 'Clothing',
     'Snacks / Refreshments': 'Fast Food',
     'Soft furnishings': 'Furnishings',
+    'Software': 'Electronics & Software',
     'Spa': 'Spa & Massage',
     'Sponsorship': 'Charity',
+    'Sports Club Membership': 'Gym',
+    'Sports Equipment': 'Sporting Goods',
+    'Sports event': 'Sports',
     'Stationery & consumables': 'Office Supplies',
+    'Supermarket': 'Groceries',
     'Take-away': 'Fast Food',
+    'Tax Payment': 'Taxes',
+    'Tax rebate': 'Taxes',
     'Taxi': 'Rental Car & Taxi',
     'Toiletries': 'Personal Care',
-    'Unsecured Loan repayment': None,
+    'Toys': 'Gift',
+    'Transfers': DONOTUPLOAD,
+    'Transport - other': 'Travel',
+    'Transport': 'Auto & Transport',
+    'TV Licence': 'Television',
+    'Unsecured Loan repayment': DONOTUPLOAD,
     'Vehicle hire': 'Rental Car & Taxi',
     'Vet': 'Veterinary',
     'Water': 'Utilities',
-    'Sports Club Membership': 'Gym',
-    'Rental income (room)': 'Income',
-    'Transport - other': 'Travel',
-    'Road charges': 'Tolls',
-    'Tax Payment': 'Taxes',
-    'Expenses': 'Reimbursement',
-    'Tax rebate': 'Taxes',
-    'Salary or Wages (Main)': 'Paycheck',
-    'Public Transport': 'Public Transportation',
-    'Lunch or Snacks': 'Restaurants',
-    'Business Expenses': 'Business Services',
-    'Home DIY or Repairs': 'Home Improvement',
-    'Charity - other': 'Charity',
-    'Education - other': 'Education',
-    'Gifts or Presents': 'Gift',
-    'Books / Magazines / Newspapers': 'Books',
-    'Sports event': 'Sports',
-    'TV Licence': 'Television',
-    'Dining or Going Out': 'Restaurants',
-    'Transport': 'Auto & Transport',
-    'Art Supplies': 'Books & Supplies',
-    'Medical treatment': 'Doctor',
-    'Software': 'Electronics & Software',
-    'Toys': 'Gift',
-    'Business Services': 'Business Services',
-    'Enjoyment': 'Entertainment',
-    'Gift': 'Gift',
-    'Electricity': 'Utilities',
-    'Salary (secondary)': 'Paycheck',
-    'Council Tax': 'Local Tax',
-    'Transfers': None,
-    'Medication': 'Pharmacy'
 
 }
 
@@ -140,6 +154,7 @@ DESC_CUTOFFS = (
     "Card:"
 )
 
+missing_categories = set()
 
 # code for loading transactions
 class Transaction(object):
@@ -175,19 +190,33 @@ def _trim_desc(desc):
         return desc
 
 
+def get_tag_translation(tags):
+    # first non-null tag will be returned, so they should be passed in priority order
+    all_tags = [TAGMAP.get(t, None) for t in tags]
+
+    if not any(all_tags):
+        logging.warning("Unmapped category combination detected({}), transaction will not be uploaded".format(tags))
+        for t in tags:
+            if t:
+                missing_categories.add(t)
+        raise ValueError()
+
+    return next(t for t in all_tags if t)
+
 def create_transaction_from_moneydashboard_row(row):
     logging.debug("Adding transaction data: {}".format(row))
-    if row["Tag"] not in TAGMAP:
-        logging.warning("Unmapped category detected({}), transaction will not be uploaded".format(row["Tag"]))
-    return Transaction(
-        datetime.strptime(row["Date"], "%m/%d/%Y"),
-        _trim_desc(row["Description"]),
-        TAGMAP.get(row["Tag"], None),
-        float(row["USD"].replace(",", ""))
-    )
+    try:
+        t = Transaction(
+            datetime.strptime(row["Date"], "%m/%d/%Y"),
+            _trim_desc(row["OriginalDescription"]),
+            get_tag_translation([row["L3Tag"], row["L2Tag"], row["L1Tag"]]),
+            float(row["USD"].replace(",", ""))
+        )
+        return t
+    except Exception as e:
+        logging.exception(e)
 
-
-def read_transactions(spreadsheet_path):
+def read_transactions(spreadsheet_path, failonmissingcategory):
     if spreadsheet_path.endswith(".xlsx") or spreadsheet_path.endswith(".xls"):
         return read_transactions_from_excel(spreadsheet_path)
     elif spreadsheet_path.endswith(".csv"):
@@ -214,9 +243,13 @@ def read_transactions_from_csv(spreadsheet_path):
         """.format(spreadsheet_path, ", ".join(REQUIRED_COLS), ", ".join(rows[0].keys()))
                          )
     else:
+        import pdb; pdb.set_trace()
         transactions = [create_transaction_from_moneydashboard_row(r) for r in rows if r["USD"] != "#N/A"]
+        if missing_categories:
+            print(missing_categories)
+            raise ValueError("Missing transactions detected, halting.")
         # eliminate unmapped 
-        transactions = sorted(filter(lambda t: t.category, transactions))
+        transactions = sorted(filter(lambda t: t.category and t.category != DONOTUPLOAD, transactions))
     return transactions
 
 
@@ -284,9 +317,6 @@ if __name__ == "__main__":
     parser.add_argument("--debug", action="store_true", default=False)
     args = parser.parse_args()
 
-    if args.failonmissingcategory:
-        raise NotImplementedError()
-
     if not ((args.username and args.password) or args.load_sheet_only):
         raise argparse.ArgumentError(
             "Must pass either username and password or load_sheet_only to prevent uploading to mint.com")
@@ -300,6 +330,6 @@ if __name__ == "__main__":
     console.setFormatter(formatter)
     logging.getLogger("").addHandler(console)
 
-    transactions = read_transactions(args.spreadsheet_path)
+    transactions = read_transactions(args.spreadsheet_path, args.failonmissingcategory)
     if not args.load_sheet_only:
         add_all_transactions(args.username, args.password, transactions)
